@@ -188,6 +188,7 @@ interface MegaMenuCardProps {
     className?: string;
     children?: React.ReactNode;
     showLearnMore?: boolean;
+    backgroundImage?: string;
 }
 
 function MegaMenuCard({
@@ -199,6 +200,7 @@ function MegaMenuCard({
     className,
     children,
     showLearnMore = true,
+    backgroundImage,
 }: MegaMenuCardProps) {
     return (
         <a
@@ -209,6 +211,13 @@ function MegaMenuCard({
                 className,
             )}
         >
+            {backgroundImage && (
+                <div
+                    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat grayscale opacity-60 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500"
+                    style={{ backgroundImage: `url(${backgroundImage})` }}
+                />
+            )}
+
             <div className="relative z-10 p-4 pb-2">
                 <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-white font-semibold text-[13px]">{title}</h3>
@@ -258,81 +267,38 @@ function ProductMenu() {
                 badgeVariant="solid"
                 description="Stop friendly fraud, block digital shoplifters & prevent the next chargeback before it happens."
                 className="h-full"
-            >
-                <div className="relative w-full flex-1">
-                    <div className="absolute inset-0 bg-linear-to-t from-blue-600/15 via-blue-500/5 to-transparent" />
-                    <Diamond className="absolute bottom-10 left-5 text-blue-500/60" />
-                    <Diamond className="absolute bottom-16 left-14 text-blue-400/40 size-1.5" />
-                    <Diamond className="absolute bottom-5 right-10 text-blue-500/35 size-2.5" />
-                    <Diamond className="absolute bottom-20 right-5 text-blue-400/25 size-1.5" />
-                    <Diamond className="absolute bottom-12 left-1/2 text-blue-500/20 size-1" />
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 140" fill="none">
-                        <line x1="30" y1="110" x2="70" y2="80" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.25" />
-                        <line x1="70" y1="80" x2="140" y2="100" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.2" />
-                        <line x1="100" y1="60" x2="160" y2="40" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.15" />
-                    </svg>
-                </div>
-            </MegaMenuCard>
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6981018e62de9a5aac9b2dcd_navbar-prod-prevent__dark.png"
+            />
 
             <MegaMenuCard
                 title="Automation"
                 description="Fully automated chargeback recovery with 4x ROI guarantee."
                 className="h-full"
-            >
-                <div className="relative w-full flex-1 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-linear-to-t from-white/2 to-transparent" />
-                    <div className="relative w-12 h-12 rounded-2xl bg-white/6 border border-white/8 flex items-center justify-center backdrop-blur-sm">
-                        <ChargeflowIcon className="h-5 w-auto text-white/50" />
-                    </div>
-                </div>
-            </MegaMenuCard>
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6981018e65e3406e194326b4_navbar-prod-automation__dark.png"
+            />
 
             <MegaMenuCard
                 title="Alerts"
                 description="Cut 90% of chargebacks before they happen, powered by Visa and Mastercard."
                 className="h-full"
-            >
-                <div className="relative w-full flex-1">
-                    <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 200 120" fill="none" preserveAspectRatio="none">
-                        <line x1="0" y1="30" x2="200" y2="30" stroke="white" strokeWidth="0.3" opacity="0.05" strokeDasharray="4 4" />
-                        <line x1="0" y1="60" x2="200" y2="60" stroke="white" strokeWidth="0.3" opacity="0.05" strokeDasharray="4 4" />
-                        <line x1="0" y1="90" x2="200" y2="90" stroke="white" strokeWidth="0.3" opacity="0.05" strokeDasharray="4 4" />
-                        <path d="M0 100 Q30 90 60 75 T120 40 T180 55 T200 30" stroke="white" strokeWidth="1.5" opacity="0.2" fill="none" />
-                        <path d="M0 100 Q30 90 60 75 T120 40 T180 55 T200 30 V120 H0Z" fill="url(#ag)" opacity="0.05" />
-                        <defs>
-                            <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="white" />
-                                <stop offset="100%" stopColor="white" stopOpacity="0" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-            </MegaMenuCard>
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6981018ebf1759172ed9b9f3_navbar-prod-alerts__dark.png"
+            />
 
             <MegaMenuCard
                 title="Insights"
                 badge="FREE"
                 description="Get a bird's-eye view into your payments and chargebacks, all in a single, powerful dashboard."
                 className="h-full"
-            >
-                <div className="relative w-full flex-1 flex items-center justify-center">
-                    <DottedCircles className="absolute inset-0 opacity-60" />
-                </div>
-            </MegaMenuCard>
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6981018f41fe4021312a56cd_navbar-prod-insights__dark.png"
+            />
 
             <MegaMenuCard
                 title="Connect"
                 badge="FOR PLATFORMS"
                 description="Integrate Chargeflow into your platform, either via Embedding, Whitelabel or API."
                 className="h-full"
-            >
-                <div className="relative w-full flex-1 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-linear-to-t from-blue-600/5 to-transparent" />
-                    <div className="w-14 h-14 rounded-2xl bg-white/4 border border-white/6 flex items-center justify-center">
-                        <ChargeflowIcon className="h-4 w-auto text-white/40" />
-                    </div>
-                </div>
-            </MegaMenuCard>
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6981018f9d38ca96315bca35_navbar-prod-connect__dark.png"
+            />
         </div>
     );
 }
@@ -401,85 +367,29 @@ function IntegrationsMenu() {
                 title="All Integrations"
                 description="Choose from hundreds of integrated platforms."
                 className="row-span-3 h-full"
-            >
-                <div className="relative w-full flex-1">
-                    <HubSpoke />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-10 h-10 rounded-full bg-white/6 border border-white/8 flex items-center justify-center">
-                            <ChargeflowIcon className="h-3.5 w-auto text-white/40" />
-                        </div>
-                    </div>
-                </div>
-            </MegaMenuCard>
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977d79c4ff1e272f4eee850_navbar-integrations__dark.svg"
+            />
 
-            {/* Stripe card — logo absolutely positioned as large, subtle background watermark */}
-            <MegaMenuCard title="Stripe" description="#1 Chargeback Solution for Stripe Merchants" showLearnMore>
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-end pr-5 overflow-hidden">
-                    {/* Subtle dot-grid background pattern */}
-                    <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <pattern id="dots-stripe" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                                <circle cx="1.5" cy="1.5" r="1" fill="white"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#dots-stripe)"/>
-                    </svg>
-                    {/* Official Stripe wordmark as large background watermark */}
-                    <svg viewBox="54 36 360.02 149.84" className="relative w-40 h-auto opacity-[0.10] group-hover/card:opacity-[0.22] transition-opacity duration-500" fill="none">
-                        <g>
-                            <path fill="#635BFF" d="M414,113.4c0-25.6-12.4-45.8-36.1-45.8c-23.8,0-38.2,20.2-38.2,45.6c0,30.1,17,45.3,41.4,45.3c11.9,0,20.9-2.7,27.7-6.5v-20c-6.8,3.4-14.6,5.5-24.5,5.5c-9.7,0-18.3-3.4-19.4-15.2h48.9C413.8,121,414,115.8,414,113.4z M364.6,103.9c0-11.3,6.9-16,13.2-16c6.1,0,12.6,4.7,12.6,16H364.6z"/>
-                            <path fill="#635BFF" d="M301.1,67.6c-9.8,0-16.1,4.6-19.6,7.8l-1.3-6.2h-22v116.6l25-5.3l0.1-28.3c3.6,2.6,8.9,6.3,17.7,6.3c17.9,0,34.2-14.4,34.2-46.1C335.1,83.4,318.6,67.6,301.1,67.6z M295.1,136.5c-5.9,0-9.4-2.1-11.8-4.7l-0.1-37.1c2.6-2.9,6.2-4.9,11.9-4.9c9.1,0,15.4,10.2,15.4,23.3C310.5,126.5,304.3,136.5,295.1,136.5z"/>
-                            <polygon fill="#635BFF" points="223.8,61.7 248.9,56.3 248.9,36 223.8,41.3"/>
-                            <rect x="223.8" y="69.3" fill="#635BFF" width="25.1" height="87.5"/>
-                            <path fill="#635BFF" d="M196.9,76.7l-1.6-7.4h-21.6v87.5h25V97.5c5.9-7.7,15.9-6.3,19-5.2v-23C214.5,68.1,202.8,65.9,196.9,76.7z"/>
-                            <path fill="#635BFF" d="M146.9,47.6l-24.4,5.2l-0.1,80.1c0,14.8,11.1,25.7,25.9,25.7c8.2,0,14.2-1.5,17.5-3.3V135c-3.2,1.3-19,5.9-19-8.9V90.6h19V69.3h-19L146.9,47.6z"/>
-                            <path fill="#635BFF" d="M79.3,94.7c0-3.9,3.2-5.4,8.5-5.4c7.6,0,17.2,2.3,24.8,6.4V72.2c-8.3-3.3-16.5-4.6-24.8-4.6C67.5,67.6,54,78.2,54,95.9c0,27.6,38,23.2,38,35.1c0,4.6-4,6.1-9.6,6.1c-8.3,0-18.9-3.4-27.3-8v23.8c9.3,4,18.7,5.7,27.3,5.7c20.8,0,35.1-10.3,35.1-28.2C117.4,100.6,79.3,105.9,79.3,94.7z"/>
-                        </g>
-                    </svg>
-                </div>
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="Stripe"
+                description="#1 Chargeback Solution for Stripe Merchants"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/66fc000c87ace1e48d09740d_Frame%201362790250.avif"
+            />
 
-            {/* Shopify card — bag mark as large, subtle background watermark */}
-            <MegaMenuCard title="Shopify" description="Powering 30k+ Shopify Merchants" showLearnMore>
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-end pr-4 overflow-hidden">
-                    {/* Subtle dot-grid background pattern */}
-                    <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <pattern id="dots-shopify" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                                <circle cx="1.5" cy="1.5" r="1" fill="white"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#dots-shopify)"/>
-                    </svg>
-                    {/* Official Shopify bag mark as large background watermark */}
-                    <svg viewBox="0 0 48 48" className="relative w-20 h-20 opacity-[0.10] group-hover/card:opacity-[0.22] transition-opacity duration-500">
-                        <path fill="#7cb342" d="M37.216,11.78c-0.023-0.211-0.211-0.305-0.351-0.305s-3.21-0.234-3.21-0.234s-2.132-2.132-2.39-2.343c-0.234-0.234-0.68-0.164-0.867-0.117c-0.023,0-0.469,0.141-1.195,0.375c-0.726-2.086-1.968-3.984-4.194-3.984h-0.211C24.187,4.375,23.391,4,22.735,4c-5.155,0-7.639,6.444-8.412,9.725c-2.015,0.633-3.445,1.054-3.609,1.125c-1.125,0.351-1.148,0.375-1.289,1.429c-0.117,0.797-3.046,23.456-3.046,23.456L29.179,44l12.373-2.671C41.575,41.282,37.24,11.991,37.216,11.78z M27.937,9.483c-0.562,0.164-1.242,0.375-1.921,0.609V9.671c0-1.265-0.164-2.296-0.469-3.117C26.718,6.695,27.445,7.984,27.937,9.483z M24.117,6.812c0.305,0.797,0.516,1.922,0.516,3.468v0.234c-1.265,0.398-2.601,0.797-3.984,1.242C21.422,8.804,22.899,7.351,24.117,6.812z M22.617,5.359c0.234,0,0.469,0.094,0.656,0.234c-1.664,0.773-3.421,2.718-4.148,6.655c-1.101,0.351-2.156,0.656-3.163,0.984C16.806,10.233,18.915,5.359,22.617,5.359z"/>
-                        <path fill="#558b2f" d="M36.865,11.428c-0.141,0-3.21-0.234-3.21-0.234s-2.132-2.132-2.39-2.343C31.17,8.757,31.053,8.71,30.96,8.71L29.249,44l12.373-2.671c0,0-4.335-29.338-4.359-29.549C37.169,11.569,37.005,11.475,36.865,11.428z"/>
-                        <path fill="#fff" d="M24.792,18.593l-1.475,4.449c0,0-1.337-0.715-2.927-0.715c-2.374,0-2.489,1.498-2.489,1.867c0,2.028,5.301,2.812,5.301,7.583c0,3.757-2.374,6.177-5.578,6.177c-3.872,0-5.808-2.397-5.808-2.397l1.037-3.411c0,0,2.028,1.752,3.734,1.752c1.129,0,1.59-0.876,1.59-1.521c0-2.651-4.333-2.766-4.333-7.145c0-3.665,2.628-7.214,7.952-7.214C23.777,17.994,24.792,18.593,24.792,18.593z"/>
-                    </svg>
-                </div>
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="Shopify"
+                description="Powering 30k+ Shopify Merchants"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/692d6eb75988c81ef29f0a3d_shopify%20nav.svg"
+            />
 
-            {/* WooCommerce card — woo wordmark as large, subtle background watermark */}
-            <MegaMenuCard title="WooCommerce" description="Native WooCommerce Integration" showLearnMore>
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-end pr-5 overflow-hidden">
-                    {/* Subtle dot-grid background pattern */}
-                    <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <pattern id="dots-woo" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                                <circle cx="1.5" cy="1.5" r="1" fill="white"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#dots-woo)"/>
-                    </svg>
-                    {/* Official Woo wordmark as large background watermark */}
-                    <svg viewBox="0 0 183.6 47.5" className="relative w-36 h-auto opacity-[0.10] group-hover/card:opacity-[0.22] transition-opacity duration-500">
-                        <path fill="#873EFF" d="M77.4,0c-4.3,0-7.1,1.4-9.6,6.1L56.4,27.6V8.5c0-5.7-2.7-8.5-7.7-8.5s-7.1,1.7-9.6,6.5L28.3,27.6V8.7c0-6.1-2.5-8.7-8.6-8.7H7.3C2.6,0,0,2.2,0,6.2s2.5,6.4,7.1,6.4h5.1v24.1c0,6.8,4.6,10.8,11.2,10.8s9.6-2.6,12.9-8.7l7.2-13.5v11.4c0,6.7,4.4,10.8,11.1,10.8s9.2-2.3,13-8.7l16.6-28C87.8,4.7,85.3,0,77.3,0C77.3,0,77.3,0,77.4,0z"/>
-                        <path fill="#873EFF" d="M108.6,0C95,0,84.7,10.1,84.7,23.8s10.4,23.7,23.9,23.7s23.8-10.1,23.9-23.7C132.5,10.1,122.1,0,108.6,0z M108.6,32.9c-5.1,0-8.6-3.8-8.6-9.1s3.5-9.2,8.6-9.2s8.6,3.9,8.6,9.2S113.8,32.9,108.6,32.9z"/>
-                        <path fill="#873EFF" d="M159.7,0c-13.5,0-23.9,10.1-23.9,23.8s10.4,23.7,23.9,23.7s23.9-10.1,23.9-23.7S173.2,0,159.7,0z M159.7,32.9c-5.2,0-8.5-3.8-8.5-9.1s3.4-9.2,8.5-9.2s8.6,3.9,8.6,9.2S164.9,32.9,159.7,32.9z"/>
-                    </svg>
-                </div>
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="WooCommerce"
+                description="Native WooCommerce Integration"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/697349f3b73a6f2ac3245c5c_navbar-woocommerce.svg"
+            />
         </div>
     );
 }
