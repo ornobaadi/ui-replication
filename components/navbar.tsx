@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { useScroll } from '@/components/ui/use-scroll';
 import Link from 'next/link';
 import { MenuToggleIcon } from '@/components/ui/menu-toggle-icon';
+import { ShimmerButton } from '@/components/ui/shimmer-button';
 
 const MOBILE_NAV_LINKS = [
     { label: 'PRODUCT', href: '#' },
@@ -757,20 +758,29 @@ export function Navbar() {
 
                 {/* Col 3 — CTAs + mobile burger */}
                 <div className="flex items-center justify-end gap-4">
-                    <a
-                        href="#"
-                        className="hidden md:flex items-center gap-1 text-xs font-semibold tracking-tight text-white transition-colors hover:text-white/70"
+                    {/* SIGN IN — shimmer ghost pill */}
+                    <ShimmerButton
+                        shimmerColor="rgba(255,255,255,0.55)"
+                        shimmerSize="0.04em"
+                        shimmerDuration="3.5s"
+                        
+                        borderRadius="100px"
+                        className="hidden md:flex items-center gap-1 py-2 px-4 text-xs font-semibold tracking-tight border border-transparent group-hover:border-white/[0.08] transition-colors"
                     >
                         SIGN IN
-                        <ArrowUpRight className="h-4 w-4" />
-                    </a>
-                    <a
-                        href="#"
+                        <ArrowUpRight className="h-[14px] w-[14px]" />
+                    </ShimmerButton>
+
+                    {/* SCHEDULE A DEMO — shimmer blue pill */}
+                    <ShimmerButton
+                        shimmerColor="#ffffff"
+                        shimmerSize="0.03em"
+                        shimmerDuration="2.5s"
+                        background="rgba(41, 82, 227, 1)"
+                        borderRadius="100px"
                         className={cn(
-                            'hidden md:flex items-center gap-1.5 rounded-full py-2',
-                            'bg-[#2952e3] hover:bg-[#3563f5] active:bg-[#1e42c7]',
-                            'text-xs font-semibold tracking-tight text-white',
-                            'transition-all duration-500 ease-out overflow-hidden',
+                            'hidden md:flex items-center gap-1.5 py-2 text-xs font-semibold tracking-tight border-white/[0.15]',
+                            'transition-[padding] duration-500 ease-out',
                             scrolled && !mobileOpen ? 'px-4' : 'px-5',
                         )}
                     >
@@ -786,8 +796,8 @@ export function Navbar() {
                         )}>
                             SCHEDULE A DEMO
                         </span>
-                        <ArrowUpRight className="h-4 w-4 shrink-0" />
-                    </a>
+                        <ArrowUpRight className="h-[14px] w-[14px] shrink-0" />
+                    </ShimmerButton>
 
                     <button
                         aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
