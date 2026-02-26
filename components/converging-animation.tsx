@@ -36,7 +36,7 @@ interface LogoDef {
 const LOGOS: LogoDef[] = [
   { custom: "nice",                                                                                               bg: "#ffffff", x: 0.205, y: 0.155, curve:  65 },
   { img: "https://framerusercontent.com/images/w89lnPXzPq5HLEB0pb8G6N0zqVc.png", imgAlt: "Arrow logo",          bg: "#ffffff", x: 0.430, y: 0.115, curve: -55 },
-  { img: "https://framerusercontent.com/images/qMGqgg7fcxVsSfRvUYFbfZ1fVxE.png", imgAlt: "Latitude",            bg: "#ffffff", x: 0.572, y: 0.115, captionBelow: "Latitude", curve: 35 },
+  { img: "https://framerusercontent.com/images/qMGqgg7fcxVsSfRvUYFbfZ1fVxE.png", imgAlt: "Latitude",            bg: "#ffffff", x: 0.572, y: 0.115, curve: 35 },
   { img: "https://framerusercontent.com/images/ya1Ki8apcD5chKEopqTgx0v2OU.png",  imgAlt: "Dots icon",           bg: "#ffffff", x: 0.793, y: 0.155, curve: -75 },
   { img: "https://framerusercontent.com/images/AmY95qWYEiJlJGQeMmeBeLZKF4.png",  imgAlt: "Green E",             bg: "#3DBE8B", x: 0.268, y: 0.395, curve:  55 },
   { img: "https://framerusercontent.com/images/ImqjsWOEttlFkvAaymtXxTaaDf0.png", imgAlt: "Blue stripes",        bg: "#1A5BD6", x: 0.816, y: 0.390, curve: -60 },
@@ -181,7 +181,8 @@ export function ConvergingAnimation() {
   const cx            = hPad + CENTER_X * effW
   const cy            = vPad + rCenterY * effH
 
-  const textOpacity   = Math.max(0, 1 - progress * 2.4)
+  // Text stays fully visible while logos converge; fades out as the final center logo fades in
+  const textOpacity   = Math.max(0, 1 - Math.max(0, (progress - 0.68) / 0.28))
   const logoOpacity   = Math.max(0, 1 - Math.max(0, (progress - 0.72) / 0.28))
   const lineOpacity   = Math.max(0, 1 - progress * 1.7)
   const centerOpacity = Math.max(0, (progress - 0.68) / 0.32)
@@ -334,25 +335,36 @@ export function ConvergingAnimation() {
             </button>
           </div>
 
-          {/* ── Converged single logo (end state) ── */}
+          {/* ── Converged single logo (end state) — actual Domu icon ── */}
           <div
-            className="absolute z-20 flex items-center justify-center rounded-lg"
+            className="absolute z-20"
             style={{
               width: 96,
               height: 96,
-              background: "#1A2FD4",
               opacity: centerOpacity,
               left: cx,
               top:  cy,
               transform: "translate(-50%, -50%)",
-              boxShadow: "0 4px 32px 0 rgba(26,47,212,0.40)",
             }}
           >
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-              <circle cx="26" cy="26" r="19" stroke="white" strokeWidth="2.5" fill="none" />
-              <circle cx="26" cy="26" r="7.5" fill="white" />
-              <line x1="26" y1="7"  x2="26" y2="45" stroke="white" strokeWidth="1.5" strokeOpacity="0.45" />
-              <line x1="7"  y1="26" x2="45" y2="26" stroke="white" strokeWidth="1.5" strokeOpacity="0.45" />
+            <svg width="96" height="96" viewBox="0 0 101 101" fill="none">
+              <defs>
+                <linearGradient id="domu_grad" x1="50.3486" y1="0" x2="50.3486" y2="100.697" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#0145F2" />
+                  <stop offset="1" stopColor="#0034B8" />
+                </linearGradient>
+                <clipPath id="domu_clip">
+                  <rect width="58" height="58" fill="white" transform="translate(22 22)" />
+                </clipPath>
+              </defs>
+              <rect width="100.697" height="100.697" rx="12" fill="url(#domu_grad)" />
+              <rect x="0.5" y="0.5" width="99.697" height="99.697" rx="11.5" stroke="#0021A4" />
+              <g clipPath="url(#domu_clip)">
+                <path
+                  d="M75.6215 39.7455C74.0852 36.2884 72.0105 33.1775 69.3988 30.565C66.7871 27.9534 63.6754 25.841 60.2183 24.3039C56.6851 22.7685 52.8441 22 48.8493 22H42.5497V38.2863H48.1961C50.0401 38.2863 51.6917 38.6325 53.2664 39.3232C54.8411 39.9763 56.1858 40.8595 57.3382 42.0503C58.4906 43.1642 59.3737 44.5089 60.0268 46.0451C60.6799 47.5814 60.9868 49.1945 60.9868 51.0385C60.9868 52.767 60.6791 54.3417 60.0268 55.8395C59.3352 57.3757 58.4521 58.6819 57.2613 59.8728C56.0704 61.0251 54.765 61.9082 53.1895 62.5614C51.6148 63.2145 50.0016 63.5599 48.1961 63.5599H42.5497V79.9992H48.8493C52.8056 79.9992 56.5697 79.2315 60.1037 77.7329C63.5993 76.1967 66.6717 74.1604 69.2842 71.5487C71.9344 68.9362 74.0468 65.8638 75.5453 62.3682C77.12 58.8342 77.8885 55.0701 77.8885 51.1138C77.8885 47.1574 77.1208 43.278 75.6223 39.7439L75.6215 39.7455ZM24.1125 51.0385C24.1125 52.767 24.4203 54.3417 25.0726 55.8395C25.7642 57.3757 26.6473 58.6819 27.8381 59.8728C29.029 61.0251 30.3344 61.9082 31.9099 62.5614C33.4846 63.2145 35.0977 63.5599 36.9032 63.5599H42.5497V38.2863H36.9032C35.0593 38.2863 33.4076 38.6325 31.833 39.3232C30.2583 39.9763 28.9136 40.8595 27.7612 42.0503C26.6088 43.1642 25.7257 44.5089 25.0726 46.0451C24.4195 47.5814 24.1125 49.1945 24.1125 51.0385Z"
+                  fill="white"
+                />
+              </g>
             </svg>
           </div>
 

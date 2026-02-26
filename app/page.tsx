@@ -8,7 +8,7 @@ export default function Page() {
       <Navbar />
 
       {/* Hero section */}
-      <div className="flex flex-col items-center justify-center pt-32 pb-64 text-center px-6">
+      <div className="flex flex-col items-center justify-center pt-32 pb-16 text-center px-6">
         <p className="text-xs font-bold tracking-[0.3em] text-white/40 uppercase mb-6">
           Recover more revenue
         </p>
@@ -19,8 +19,8 @@ export default function Page() {
           Scroll down to see the scroll-driven navbar animation and converging integrations section — replicated from Chargeflow&nbsp;&amp;&nbsp;Domu.
         </p>
 
-        {/* spacer to make page scrollable so the navbar animation triggers */}
-        <div className="mt-64 h-[200vh]" />
+        {/* spacer — enough scroll distance for the navbar shrink to complete */}
+        <div className="mt-16 h-[30vh]" />
       </div>
 
       {/* Converging integrations section */}
