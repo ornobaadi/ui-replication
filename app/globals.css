@@ -145,3 +145,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Mobile nav accordion — force menu grids to single column */
+.mobile-menu-accordion > div {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: none !important;
+  height: auto !important;
+}
+.mobile-menu-accordion > div > * {
+  grid-column: span 1 !important;
+  grid-row: span 1 !important;
+  min-height: 7rem;
+}

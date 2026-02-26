@@ -625,6 +625,7 @@ const MENUS: Record<MenuKey, React.ReactNode> = {
 export function Navbar() {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [activeMenu, setActiveMenu] = React.useState<MenuKey | null>(null);
+    const [mobileExpandedMenu, setMobileExpandedMenu] = React.useState<MenuKey | null>(null);
     const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
     const scrolled = useScroll(20);
 
@@ -641,8 +642,13 @@ export function Navbar() {
         if (closeTimer.current) clearTimeout(closeTimer.current);
     }
 
+    function toggleMobileMenu(key: MenuKey) {
+        setMobileExpandedMenu((prev) => (prev === key ? null : key));
+    }
+
     React.useEffect(() => {
         document.body.style.overflow = mobileOpen ? 'hidden' : '';
+        if (!mobileOpen) setMobileExpandedMenu(null);
         return () => { document.body.style.overflow = ''; };
     }, [mobileOpen]);
 
@@ -757,7 +763,7 @@ export function Navbar() {
                 </ul>
 
                 {/* Col 3 — CTAs + mobile burger */}
-                <div className="flex items-center justify-end gap-4">
+                <div className="flex items-center justify-end gap-4 col-start-3">
                     {/* SIGN IN — shimmer ghost pill */}
                     <ShimmerButton
                         shimmerColor="rgba(255,255,255,0.55)"
@@ -848,33 +854,80 @@ export function Navbar() {
             <div
                 data-state={mobileOpen ? 'open' : 'closed'}
                 className={cn(
-                    'fixed inset-0 top-16 z-40 flex flex-col bg-black/95 backdrop-blur-xl md:hidden',
+                    'fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col bg-black/95 backdrop-blur-xl md:hidden',
                     'transition-all duration-300 ease-out',
                     mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
                 )}
             >
-                <div className="flex h-full flex-col justify-between gap-4 p-6">
-                    <ul className="grid gap-1">
-                        {MOBILE_NAV_LINKS.map((link) => (
-                            <li key={link.label}>
-                                <a
-                                    href={link.href}
-                                    onClick={() => setMobileOpen(false)}
-                                    className="block rounded-md px-3 py-3 text-sm font-bold tracking-widest text-white/70 hover:bg-white/5 hover:text-white"
-                                >
-                                    {link.label}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                <div className="flex h-full flex-col gap-4 p-4 sm:p-6 overflow-y-auto">
+                    {/* CTAs side by side */}
+                    <div className="flex gap-2.5 items-center">
+                        <a href="#" className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/20 py-2.5 text-xs font-semibold tracking-wide text-white whitespace-nowrap">
+                            SIGN IN <ArrowUpRight className="h-3.5 w-3.5" />
+                        </a>
+                        <a href="#" className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-blue-600 py-2.5 text-xs font-bold tracking-wide text-white whitespace-nowrap">
+                            SCHEDULE A DEMO <ArrowUpRight className="h-3.5 w-3.5" />
+                        </a>
+                    </div>
 
-                    <div className="flex flex-col gap-3 items-center">
-                        <a href="#" className="flex w-full items-center justify-center gap-1.5 rounded-full border border-white/20 py-3 text-sm font-semibold text-white">
-                            SIGN IN <ArrowUpRight className="h-4 w-4" />
-                        </a>
-                        <a href="#" className="flex w-full items-center justify-center gap-1.5 rounded-full bg-blue-600 py-3 text-sm font-bold text-white">
-                            SIGN UP <ArrowUpRight className="h-4 w-4" />
-                        </a>
+                    {/* Dotted separator */}
+                    <div className="border-t border-dashed border-white/10" />
+
+                    {/* Accordion nav links */}
+                    <div className="flex flex-col gap-0.5">
+                        {MOBILE_NAV_LINKS.map((link) => {
+                            const menuKey = link.label as MenuKey;
+                            const hasSubmenu = menuKey in MENUS;
+                            const isExpanded = mobileExpandedMenu === menuKey;
+
+                            return (
+                                <div key={link.label}>
+                                    {hasSubmenu ? (
+                                        <>
+                                            <button
+                                                onClick={() => toggleMobileMenu(menuKey)}
+                                                className="flex w-full items-center justify-between rounded-md px-3 py-3 text-sm font-bold tracking-widest text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+                                            >
+                                                {link.label}
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth={2.5}
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    className={cn(
+                                                        'h-4 w-4 transition-transform duration-300',
+                                                        isExpanded ? 'rotate-180' : 'rotate-0',
+                                                    )}
+                                                >
+                                                    <path d="M6 9l6 6 6-6" />
+                                                </svg>
+                                            </button>
+                                            <div
+                                                className={cn(
+                                                    'overflow-hidden transition-all duration-300 ease-out',
+                                                    isExpanded ? 'max-h-[3000px] opacity-100' : 'max-h-0 opacity-0',
+                                                )}
+                                            >
+                                                <div className="mobile-menu-accordion px-1 pb-3 pt-1">
+                                                    {MENUS[menuKey]}
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <a
+                                            href={link.href}
+                                            onClick={() => setMobileOpen(false)}
+                                            className="block rounded-md px-3 py-3 text-sm font-bold tracking-widest text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+                                        >
+                                            {link.label}
+                                        </a>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
