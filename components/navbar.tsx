@@ -180,7 +180,7 @@ function HubSpoke({ className }: { className?: string }) {
 // ─── Mega Menu Card ────────────────────────────────────────────────────────────
 
 interface MegaMenuCardProps {
-    title: string;
+    title: React.ReactNode;
     description?: string;
     badge?: string;
     badgeVariant?: 'solid' | 'outline';
@@ -189,6 +189,9 @@ interface MegaMenuCardProps {
     children?: React.ReactNode;
     showLearnMore?: boolean;
     backgroundImage?: string;
+    backgroundSize?: 'cover' | 'contain';
+    backgroundPosition?: string;
+    bottomLabel?: string;
 }
 
 function MegaMenuCard({
@@ -201,6 +204,9 @@ function MegaMenuCard({
     children,
     showLearnMore = true,
     backgroundImage,
+    backgroundSize = 'cover',
+    backgroundPosition = 'center',
+    bottomLabel,
 }: MegaMenuCardProps) {
     return (
         <a
@@ -213,8 +219,11 @@ function MegaMenuCard({
         >
             {backgroundImage && (
                 <div
-                    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat grayscale opacity-60 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500"
-                    style={{ backgroundImage: `url(${backgroundImage})` }}
+                    className={cn(
+                        'absolute inset-0 z-0 bg-no-repeat grayscale opacity-60 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500',
+                        backgroundSize === 'contain' ? 'bg-contain' : 'bg-cover',
+                    )}
+                    style={{ backgroundImage: `url(${backgroundImage})`, backgroundPosition }}
                 />
             )}
 
@@ -242,6 +251,15 @@ function MegaMenuCard({
             {children && (
                 <div className="relative flex-1 flex items-end justify-center overflow-hidden text-white group-hover/card:text-blue-400 transition-colors duration-500">
                     {children}
+                </div>
+            )}
+
+            {bottomLabel && (
+                <div className="relative z-10 mt-auto p-4 pt-2 flex items-center justify-center">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-white/10">
+                        <Diamond className="text-white/30 size-1.5" />
+                        <span className="text-white/60 text-[10px] font-medium tracking-wider uppercase">{bottomLabel}</span>
+                    </span>
                 </div>
             )}
 
@@ -339,23 +357,41 @@ function StatCard({ brand, stat, unit, description, category }: {
 
 function CustomersMenu() {
     return (
-        <div className="grid grid-cols-[1.3fr_1fr_1fr_1fr_1fr] gap-2 w-full h-[350px]">
-            <MegaMenuCard title="All Case Studies" className="h-full">
-                <div className="relative w-full flex-1 px-4">
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 220 200" fill="none">
-                        <circle cx="110" cy="120" r="85" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 4" opacity="0.35" />
-                        <circle cx="110" cy="120" r="60" stroke="currentColor" strokeWidth="0.3" strokeDasharray="2 3" opacity="0.25" />
-                    </svg>
-                    <span className="absolute top-8 right-6 text-white/50 text-base font-light italic tracking-wide">Caraway</span>
-                    <span className="absolute top-20 right-10 text-white/30 text-sm font-medium">Huel</span>
-                    <span className="absolute bottom-14 left-5 text-white font-bold text-base tracking-tight">obvi.</span>
-                    <span className="absolute bottom-5 left-3 text-white/30 font-bold text-sm tracking-tight">HC</span>
-                </div>
-            </MegaMenuCard>
-            <StatCard brand="obvi." stat="170" unit="%" description="win-rate increase" category="eCommerce" />
-            <StatCard brand="elementor" stat="90" unit="%" description="reduction in time spent managing chargebacks" category="SaaS" />
-            <StatCard brand="Fanatics" stat="2X" unit="" description="Chargeback Win Rate" category="Marketplace" />
-            <StatCard brand="HEXCLAD" stat="328" unit="hrs." description="and 40 minutes saved" category="Travel" />
+        <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] gap-2 w-full h-[350px]">
+            <MegaMenuCard
+                title="All Case Studies"
+                className="h-full"
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/68c2f35bbebe5c11d89c1e22_all-case-studies-menu-img__light.svg"
+                backgroundSize="contain"
+            />
+            <MegaMenuCard
+                title="obvi."
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/673b4455bd44b384d4a8485d_Frame%201362790363.svg"
+                bottomLabel="eCommerce"
+            />
+            <MegaMenuCard
+                title="elementor"
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/673b44558a15a25fba4cbcd1_Frame%201362790364.svg"
+                bottomLabel="SaaS"
+            />
+            <MegaMenuCard
+                title="Fanatics"
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/691605f021971dff8d81da48_fanatics%20-%20dark.svg"
+                bottomLabel="Marketplace"
+            />
+            <MegaMenuCard
+                title="HEXCLAD"
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/673b44551ca6ddfb8c24daa4_Frame%201362790366.svg"
+                bottomLabel="Travel"
+            />
         </div>
     );
 }
@@ -408,48 +444,44 @@ function ResourceCardDecoration({ icon }: { icon: React.ReactNode }) {
 function ResourcesMenu() {
     return (
         <div className="grid grid-cols-5 grid-rows-2 gap-2 w-full h-[350px]">
-            <MegaMenuCard title="Blog" className="row-span-2 h-full">
-                <ResourceCardDecoration icon={
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M4 4h16v16H4z" /><path d="M8 8h5v3H8z" /><path d="M8 14h8" /><path d="M8 17h6" />
-                    </svg>
-                } />
-            </MegaMenuCard>
-            <MegaMenuCard title="Reports" className="row-span-2 h-full">
-                <ResourceCardDecoration icon={
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M4 4h16v16H4z" /><path d="M8 16V12" /><path d="M12 16V8" /><path d="M16 16V10" />
-                    </svg>
-                } />
-            </MegaMenuCard>
-            <MegaMenuCard title="Podcast" className="row-span-2 h-full">
-                <ResourceCardDecoration icon={
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <rect x="2" y="6" width="2" height="12" rx="1" /><rect x="6" y="3" width="2" height="18" rx="1" />
-                        <rect x="10" y="8" width="2" height="8" rx="1" /><rect x="14" y="4" width="2" height="16" rx="1" />
-                        <rect x="18" y="6" width="2" height="12" rx="1" /><rect x="22" y="9" width="2" height="6" rx="1" />
-                    </svg>
-                } />
-            </MegaMenuCard>
-            <MegaMenuCard title="Webinars" className="row-span-2 h-full">
-                <ResourceCardDecoration icon={
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <circle cx="12" cy="12" r="3" />
-                        <path d="M8 8a6 6 0 0 0 0 8" /><path d="M16 8a6 6 0 0 1 0 8" />
-                        <path d="M5 5a10 10 0 0 0 0 14" /><path d="M19 5a10 10 0 0 1 0 14" />
-                    </svg>
-                } />
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="Blog"
+                className="row-span-2 h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977d93f17452615d68d488c_navbar-res-blog__dark.svg"
+                backgroundPosition="calc(50% + 50px) calc(50% + 50px)"
+            />
+            <MegaMenuCard
+                title="Reports"
+                className="row-span-2 h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977d93fb04ddaa747517b00_navbar-res-reports__dark.svg"
+                backgroundPosition="calc(50% + 50px) calc(50% + 50px)"
+            />
+            <MegaMenuCard
+                title="Podcast"
+                className="row-span-2 h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977d93f6287067ad5644d7f_navbar-res-podcast__dark.svg"
+                backgroundPosition="calc(50% + 50px) calc(50% + 50px)"
+            />
+            <MegaMenuCard
+                title="Webinars"
+                className="row-span-2 h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977d9459fe7abf47c942607_navbar-res-webinars__light.svg"
+                backgroundPosition="calc(50% + 50px) calc(50% + 50px)"
+            />
 
             {/* ROI Calculator */}
             <MegaMenuCard title="ROI Calculator" showLearnMore={false}>
                 <div className="px-3 pb-3 w-full space-y-1.5">
-                    <div className="flex items-center justify-between rounded-full border border-white/10 px-3 py-1.5">
-                        <span className="text-white/60 text-xs">1,020</span>
+                    <div className="flex items-center justify-between rounded-full border border-white/10 group-hover/card:border-white/20 px-3 py-1.5 transition-colors duration-300">
+                        <span className="text-white/60 group-hover/card:text-blue-400 text-xs transition-colors duration-300">1,020</span>
                         <span className="text-white/40 text-[10px] font-bold tracking-wider">HOURS</span>
                     </div>
-                    <div className="flex items-center justify-between rounded-full border border-white/10 px-3 py-1.5">
-                        <span className="text-white/60 text-xs">$7,500</span>
+                    <div className="flex items-center justify-between rounded-full border border-white/10 group-hover/card:border-white/20 px-3 py-1.5 transition-colors duration-300">
+                        <span className="text-white/60 group-hover/card:text-blue-400 text-xs transition-colors duration-300">$7,500</span>
                         <span className="text-white/40 text-[10px] font-bold tracking-wider">USD</span>
                     </div>
                 </div>
@@ -458,8 +490,8 @@ function ResourcesMenu() {
             {/* Reason Codes */}
             <MegaMenuCard title="Reason Codes" showLearnMore={false}>
                 <div className="px-3 pb-3 w-full">
-                    <div className="flex items-center justify-between rounded-full border border-white/10 px-3 py-1.5">
-                        <span className="text-white/40 text-xs">Enter Code: <span className="text-white/60">12.7</span></span>
+                    <div className="flex items-center justify-between rounded-full border border-white/10 group-hover/card:border-white/20 px-3 py-1.5 transition-colors duration-300">
+                        <span className="text-white/40 text-xs">Enter Code: <span className="text-white/60 group-hover/card:text-blue-400 transition-colors duration-300">12.7</span></span>
                         <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-white/30" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
                         </svg>
@@ -477,47 +509,43 @@ function CompanyMenu() {
                 title="Who We Are"
                 description="The story behind the Chargeflow."
                 className="row-span-2 h-full"
-            >
-                <div className="relative w-full flex-1">
-                    <OrbitalRings />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <ChargeflowIcon className="h-5 w-auto text-white/20" />
-                    </div>
-                </div>
-            </MegaMenuCard>
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977da1baaae0e477e381257_navbar-comp-who__dark.svg"
+                backgroundPosition="center calc(50% + 30px)"
+            />
 
-            <MegaMenuCard title="Brand" className="h-full">
-                <div className="relative w-full flex-1 flex items-center justify-center">
-                    <DottedCircles className="absolute inset-0 opacity-40" />
-                </div>
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="Brand"
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977db10e25a7d1afddf6ce0_navbar-comp-brand__dark.svg"
+                backgroundPosition="calc(50% + 20px) calc(50% + 20px)"
+            />
 
-            <MegaMenuCard title="Careers" badge="We're Hiring!" badgeVariant="solid" className="h-full">
-                <div className="relative w-full flex-1 flex items-center justify-center">
-                    <svg viewBox="0 0 100 80" className="w-full h-full opacity-15" fill="none">
-                        <circle cx="60" cy="40" r="30" stroke="white" strokeWidth="0.5" strokeDasharray="3 3" />
-                        <line x1="20" y1="20" x2="80" y2="60" stroke="white" strokeWidth="0.3" />
-                        <line x1="80" y1="20" x2="20" y2="60" stroke="white" strokeWidth="0.3" />
-                        <circle cx="50" cy="40" r="8" stroke="white" strokeWidth="0.5" />
-                    </svg>
-                </div>
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="Careers"
+                badge="We're Hiring!"
+                badgeVariant="solid"
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977db10724baedaba0d4bea_navbar-comp-careers__dark.svg"
+                backgroundPosition="calc(50% + 20px) calc(50% + 20px)"
+            />
 
-            <MegaMenuCard title="Become a Partner" className="h-full">
-                <div className="relative w-full flex-1 flex items-center justify-center">
-                    <DottedCircles className="absolute inset-0 opacity-30" />
-                    <ChargeflowIcon className="h-4 w-auto text-white/20" />
-                </div>
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="Become a Partner"
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977db109dd222e72eab885f_navbar-comp-partner__dark.svg"
+                backgroundPosition="calc(50% + 20px) calc(50% + 20px)"
+            />
 
-            <MegaMenuCard title="Contact Us" className="h-full">
-                <div className="relative w-full flex-1 flex items-center justify-center">
-                    <DottedCircles className="absolute inset-0 opacity-30" />
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white/20" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                    </svg>
-                </div>
-            </MegaMenuCard>
+            <MegaMenuCard
+                title="Contact Us"
+                className="h-full"
+                showLearnMore={false}
+                backgroundImage="https://cdn.prod.website-files.com/66eafaec075d9e2e60131e26/6977db10e0dbecfd10af0e67_navbar-comp-contact__dark.svg"
+                backgroundPosition="calc(50% + 20px) calc(50% + 20px)"
+            />
         </div>
     );
 }
