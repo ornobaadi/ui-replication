@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ui-replication-practise.vercel.app/sitemap.xml

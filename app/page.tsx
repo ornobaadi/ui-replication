@@ -7,16 +7,19 @@ export default function Page() {
     <main className="min-h-screen bg-[#080810] text-white">
       <Navbar />
 
-      {/* hero spacer — enough height to demonstrate the scroll shrink */}
-      <div className="flex flex-col items-center justify-center pt-32 pb-64 text-center">
+      {/* Hero section */}
+      <div className="flex flex-col items-center justify-center pt-32 pb-64 text-center px-6">
         <p className="text-xs font-bold tracking-[0.3em] text-white/40 uppercase mb-6">
-          Scroll down to see the navbar animate
+          Recover more revenue
         </p>
         <h1 className="text-5xl md:text-7xl font-bold leading-tight max-w-3xl">
           Recover more revenue, automatically.
         </h1>
+        <p className="mt-6 text-lg text-white/50 max-w-xl">
+          Scroll down to see the scroll-driven navbar animation and converging integrations section — replicated from Chargeflow&nbsp;&amp;&nbsp;Domu.
+        </p>
 
-        {/* tall filler so the page is scrollable */}
+        {/* spacer to make page scrollable so the navbar animation triggers */}
         <div className="mt-64 h-[200vh]" />
       </div>
 

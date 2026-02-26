@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# UI Replication — Chargeflow & Domu
 
-## Getting Started
+Pixel-perfect UI component replications of scroll-driven animations and interactive elements inspired by [Chargeflow](https://www.chargeflow.io/) and [Domu](https://domu.ai/).
 
-First, run the development server:
+**Live demo → [ui-replication-practise.vercel.app](https://ui-replication-practise.vercel.app/)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## What was replicated
+
+### Chargeflow — Scroll-shrinking navbar
+A full-featured, responsive navigation bar that morphs as the user scrolls:
+- Logo text fades out and the icon compresses on scroll
+- Mega-menu dropdowns per navigation item (Product, Customers, Integrations, Resources, Company)
+- Shimmer CTA button with animated gradient border
+- Mobile menu with hamburger/close icon toggle
+- Built purely with CSS transitions and a custom `useScroll` hook — no animation library required
+
+### Domu — Converging integrations animation
+A scroll-pinned section where integration logos curve inward from their scattered positions to a central hub:
+- Bézier-curve paths drawn on an SVG canvas sized to the viewport
+- Logos animate along their individual curved paths as the user scrolls through the sticky section
+- Animated dashed stroke reveals the path ahead of each logo
+- Integration logos include Salesforce, NICE, Arrow, Latitude, Polly, and others
+
+---
+
+## Tech stack
+
+| Technology | Version |
+|---|---|
+| [Next.js](https://nextjs.org) | 16.x (App Router) |
+| [React](https://react.dev) | 19 |
+| [Tailwind CSS](https://tailwindcss.com) | v4 |
+| [TypeScript](https://www.typescriptlang.org) | v5 |
+| [Inter Tight](https://fonts.google.com/specimen/Inter+Tight) | Google Fonts |
+
+---
+
+## Project structure
+
+```
+app/
+  layout.tsx               # Root layout with SEO metadata
+  page.tsx                 # Main page composing all sections
+  globals.css              # Global styles and Tailwind theme tokens
+components/
+  navbar.tsx               # Scroll-shrinking navbar (Chargeflow)
+  converging-animation.tsx # Converging logos animation (Domu)
+  ui/
+    shimmer-button.tsx     # Animated shimmer CTA button
+    menu-toggle-icon.tsx   # Hamburger ↔ close icon
+    use-scroll.tsx         # useScroll hook (scroll position helper)
+lib/
+  utils.ts                 # cn() utility (clsx + tailwind-merge)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Getting started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+pnpm dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm build   # Production build
+pnpm start   # Start production server
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
+- External logo images are loaded from `framerusercontent.com` — allowed via `next.config.ts` `remotePatterns`.
+- The Helvetica Neue Light font is served from `/public/Light.ttf`.
+- No third-party animation libraries are used; all motion is driven by native CSS transitions and `requestAnimationFrame` via React `useEffect`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Credits
+
+Designs inspired by:
+- [chargeflow.io](https://www.chargeflow.io/) — chargeback dispute automation platform
+- [domu.ai](https://domu.ai/) — AI-powered property intelligence
