@@ -226,7 +226,12 @@ function MegaMenuCard({
                         'absolute inset-0 z-0 bg-no-repeat grayscale opacity-60 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500',
                         backgroundSize === 'contain' ? 'bg-contain' : 'bg-cover',
                     )}
-                    style={{ backgroundImage: `url(${backgroundImage})`, backgroundPosition }}
+                    style={{ 
+                        backgroundImage: `url(${backgroundImage})`, 
+                        backgroundPosition,
+                        // On mobile, we want the background to be anchored to the right/bottom usually
+                        // but we'll let the CSS override the size
+                    }}
                 />
             )}
 
@@ -628,6 +633,7 @@ export function Navbar() {
     const [mobileExpandedMenu, setMobileExpandedMenu] = React.useState<MenuKey | null>(null);
     const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
     const scrolled = useScroll(20);
+    const isNavOpen = mobileOpen || activeMenu !== null;
 
     function openMenu(key: MenuKey) {
         if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -666,7 +672,7 @@ export function Navbar() {
         return () => window.removeEventListener('keydown', handler);
     }, []);
 
-    const triggerClass = 'block px-3.5 py-1.5 text-xs font-semibold tracking-tight rounded-full text-white transition-colors duration-200 hover:text-white/70 cursor-default select-none';
+    const triggerClass = 'block px-3.5 py-1.5 text-xs font-semibold tracking-tight rounded-full text-white transition-colors duration-200 hover:text-white/70 cursor-pointer select-none';
 
     return (
         <>
@@ -677,7 +683,7 @@ export function Navbar() {
                 'fixed inset-0 z-40 pointer-events-none',
                 'bg-black/50 backdrop-blur-[3px]',
                 'transition-all duration-300 ease-out',
-                activeMenu ? 'opacity-100' : 'opacity-0',
+                isNavOpen ? 'opacity-100' : 'opacity-0',
             )}
         />
         <header
@@ -886,7 +892,7 @@ export function Navbar() {
                                         <>
                                             <button
                                                 onClick={() => toggleMobileMenu(menuKey)}
-                                                className="flex w-full items-center justify-between rounded-md px-3 py-3 text-sm font-bold tracking-widest text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+                                                className="flex w-full items-center justify-between rounded-md px-3 py-3 text-sm font-bold tracking-widest text-white/70 hover:bg-white/5 hover:text-white transition-colors cursor-pointer"
                                             >
                                                 {link.label}
                                                 <svg

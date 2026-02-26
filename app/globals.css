@@ -157,3 +157,13 @@
   grid-row: span 1 !important;
   min-height: 7rem;
 }
+
+/* Adjust background sizes for mobile accordion cards */
+.mobile-menu-accordion .bg-cover {
+  background-size: auto 200% !important;
+  background-position: right center !important;
+}
+.mobile-menu-accordion .bg-contain {
+  background-size: auto 180% !important;
+  background-position: right center !important;
+}
