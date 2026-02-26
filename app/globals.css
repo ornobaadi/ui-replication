@@ -1,4 +1,12 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("/Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -166,4 +174,26 @@
 .mobile-menu-accordion .bg-contain {
   background-size: auto 180% !important;
   background-position: right center !important;
+}
+
+/* Button text flip animation */
+.flip-container {
+  perspective: 200px;
+}
+.flip-default {
+  transform-origin: bottom center;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+.flip-hover {
+  transform-origin: top center;
+  transform: rotateX(-90deg);
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+.group:hover .flip-default {
+  transform: rotateX(90deg);
+  opacity: 0;
+}
+.group:hover .flip-hover {
+  transform: rotateX(0deg);
+  opacity: 1;
 }

@@ -1,5 +1,6 @@
 
 import { Navbar } from '@/components/navbar';
+import { ConvergingAnimation } from '@/components/converging-animation';
 
 export default function Page() {
   return (
@@ -18,6 +19,9 @@ export default function Page() {
         {/* tall filler so the page is scrollable */}
         <div className="mt-64 h-[200vh]" />
       </div>
+
+      {/* Converging integrations section */}
+      <ConvergingAnimation />
     </main>
   );
 }
