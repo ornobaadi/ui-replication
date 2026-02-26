@@ -85,15 +85,15 @@ function SalesforceLogo() {
 
 // ── Tile component ───────────────────────────────────────────────────────────
 
-function LogoTile({ logo }: { logo: LogoDef }) {
-  const imgSize = TILE_SIZE - TILE_PAD * 2
+function LogoTile({ logo, tileSize, tilePad }: { logo: LogoDef; tileSize: number; tilePad: number }) {
+  const imgSize = tileSize - tilePad * 2
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
       <div
         style={{
-          width: TILE_SIZE,
-          height: TILE_SIZE,
+          width: tileSize,
+          height: tileSize,
           background: logo.bg,
           borderRadius: 8,
           boxShadow:
@@ -163,11 +163,23 @@ export function ConvergingAnimation() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  // ── Responsive constants derived from container width ──────────────────
+  const isMobile = size.w > 0 && size.w < 480
+  const isTablet = size.w >= 480 && size.w < 768
+  const tileSize  = isMobile ? 54  : isTablet ? 66  : TILE_SIZE
+  const tilePad   = isMobile ? 9   : isTablet ? 11  : TILE_PAD
+  const hPad      = isMobile ? 12  : isTablet ? 32  : HPAD
+  const vPad      = isMobile ? 24  : isTablet ? 48  : VPAD
+  const rSpread   = isMobile ? 0.95: isTablet ? 1.15: SPREAD
+  // On mobile, shift the composition centre upward so middle-ring logos
+  // land above/below the text block rather than overlapping it.
+  const rCenterY  = isMobile ? 0.36: isTablet ? 0.40: CENTER_Y
+
   const scatter       = 1 - progress          // 1 = scattered (reference), 0 = converged
-  const effW          = Math.max(0, size.w - 2 * HPAD)
-  const effH          = Math.max(0, size.h - 2 * VPAD)
-  const cx            = HPAD + CENTER_X * effW
-  const cy            = VPAD + CENTER_Y * effH
+  const effW          = Math.max(0, size.w - 2 * hPad)
+  const effH          = Math.max(0, size.h - 2 * vPad)
+  const cx            = hPad + CENTER_X * effW
+  const cy            = vPad + rCenterY * effH
 
   const textOpacity   = Math.max(0, 1 - progress * 2.4)
   const logoOpacity   = Math.max(0, 1 - Math.max(0, (progress - 0.72) / 0.28))
@@ -187,8 +199,8 @@ export function ConvergingAnimation() {
                 style={{ opacity: lineOpacity }}
               >
                 {LOGOS.map((logo, i) => {
-                  const lx  = cx + (logo.x - CENTER_X) * effW * scatter * SPREAD
-                  const ly  = cy + (logo.y - CENTER_Y) * effH * scatter * SPREAD
+                  const lx  = cx + (logo.x - CENTER_X) * effW * scatter * rSpread
+                  const ly  = cy + (logo.y - rCenterY) * effH * scatter * rSpread
                   const dx  = cx - lx
                   const dy  = cy - ly
                   const len = Math.hypot(dx, dy)
@@ -216,8 +228,8 @@ export function ConvergingAnimation() {
 
               {/* ── Logo tiles ── */}
               {LOGOS.map((logo, i) => {
-                const lx = cx + (logo.x - CENTER_X) * effW * scatter * SPREAD
-                const ly = cy + (logo.y - CENTER_Y) * effH * scatter * SPREAD
+                const lx = cx + (logo.x - CENTER_X) * effW * scatter * rSpread
+                const ly = cy + (logo.y - rCenterY) * effH * scatter * rSpread
 
                 return (
                   <div
@@ -231,7 +243,7 @@ export function ConvergingAnimation() {
                       willChange: "transform, opacity",
                     }}
                   >
-                    <LogoTile logo={logo} />
+                    <LogoTile logo={logo} tileSize={tileSize} tilePad={tilePad} />
                   </div>
                 )
               })}
@@ -244,12 +256,15 @@ export function ConvergingAnimation() {
             style={{ opacity: textOpacity }}
           >
             <h2
-              className="leading-tight mb-7"
+              className="leading-tight"
               style={{
-                fontSize: "clamp(2rem, 3.4vw, 3.2rem)",
+                fontSize: "clamp(1.65rem, 5.5vw, 3.2rem)",
                 fontWeight: 700,
                 color: "#111c52",
                 letterSpacing: "-0.02em",
+                marginBottom: isMobile ? 16 : 28,
+                paddingLeft: isMobile ? 20 : 0,
+                paddingRight: isMobile ? 20 : 0,
               }}
             >
               One platform,
@@ -259,8 +274,8 @@ export function ConvergingAnimation() {
             <button
               className="pointer-events-auto group relative flex items-center rounded-sm font-semibold overflow-hidden cursor-pointer"
               style={{
-                fontSize: 14,
-                padding: "12px 10px 12px 20px",
+                fontSize: isMobile ? 13 : 14,
+                padding: isMobile ? "9px 8px 9px 14px" : "12px 10px 12px 20px",
                 background: "#1a2fd4",
                 color: "#ffffff",                border: "2px solid #1a2fd4",                boxShadow: "0 2px 14px 0 rgba(26,47,212,0.28)",
               }}
