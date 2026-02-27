@@ -14,7 +14,7 @@ export default function Page() {
         <HeroOrbitsBg />
 
         {/* Hero content — on top of orbits */}
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-6 pt-20">
+        <div className="relative z-10 flex flex-col items-center justify-start min-h-screen text-center px-6 pt-[18vh]">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] max-w-4xl uppercase tracking-tight">
             The AI<br />Chargeback<br />Platform.
           </h1>
