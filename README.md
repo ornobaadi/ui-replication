@@ -8,9 +8,11 @@ Pixel-perfect UI component replications of scroll-driven animations and interact
 
 ---
 
-## Screenshot
+## Screenshots
 
-![UI Replication Screenshot](public/Screenshot.webp)
+![UI Replication Screenshot 1](public/Screenshot%201.webp)
+
+![UI Replication Screenshot 2](public/Screenshot%202.webp)
 
 ---
 

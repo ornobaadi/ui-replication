@@ -296,19 +296,21 @@ export function ConvergingAnimation() {
                 }}
               />
 
-              {/* Text with flip animation — uses .flip-default/.flip-hover CSS classes from globals.css */}
+              {/* Text with flip animation */}
               <span
-                className="flip-container relative z-10 mr-2 overflow-hidden"
+                className="relative z-10 mr-2 overflow-hidden"
                 style={{ height: 20 }}
               >
+                {/* Default text — flips up and away on hover */}
                 <span
-                  className="flip-default block"
-                  style={{ color: "#ffffff", lineHeight: "20px" }}
+                  className="block transition-transform duration-500 ease-in-out group-hover:-translate-y-full group-hover:rotate-x-90"
+                  style={{ color: "inherit", lineHeight: "20px" }}
                 >
-                  View all integrations
+                  <span className="text-white">View all integrations</span>
                 </span>
+                {/* Hover text — flips up from below */}
                 <span
-                  className="flip-hover block"
+                  className="block transition-transform duration-500 ease-in-out translate-y-0 -rotate-x-90 group-hover:translate-y-[-100%] group-hover:rotate-x-0"
                   style={{ color: "#1a2fd4", lineHeight: "20px" }}
                   aria-hidden
                 >
