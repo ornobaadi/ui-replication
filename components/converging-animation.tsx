@@ -154,8 +154,9 @@ export function ConvergingAnimation() {
     const onScroll = () => {
       if (!sectionRef.current) return
       const top = sectionRef.current.getBoundingClientRect().top + window.scrollY
-      // start animating only once the section top reaches the viewport top
-      const p   = Math.max(0, Math.min((window.scrollY - top) / 520, 1))
+      // Scroll distance = total section height minus one viewport height
+      const scrollDistance = Math.max(1, sectionRef.current.offsetHeight - window.innerHeight)
+      const p   = Math.max(0, Math.min((window.scrollY - top) / scrollDistance, 1))
       setProgress(p)
     }
     window.addEventListener("scroll", onScroll, { passive: true })
@@ -295,21 +296,19 @@ export function ConvergingAnimation() {
                 }}
               />
 
-              {/* Text with flip animation */}
+              {/* Text with flip animation — uses .flip-default/.flip-hover CSS classes from globals.css */}
               <span
-                className="relative z-10 mr-2 overflow-hidden"
+                className="flip-container relative z-10 mr-2 overflow-hidden"
                 style={{ height: 20 }}
               >
-                {/* Default text — flips up and away on hover */}
                 <span
-                  className="block transition-transform duration-500 ease-in-out group-hover:-translate-y-full group-hover:rotate-x-90"
-                  style={{ color: "inherit", lineHeight: "20px" }}
+                  className="flip-default block"
+                  style={{ color: "#ffffff", lineHeight: "20px" }}
                 >
-                  <span className="text-white">View all integrations</span>
+                  View all integrations
                 </span>
-                {/* Hover text — flips up from below */}
                 <span
-                  className="block transition-transform duration-500 ease-in-out translate-y-0 -rotate-x-90 group-hover:translate-y-[-100%] group-hover:rotate-x-0"
+                  className="flip-hover block"
                   style={{ color: "#1a2fd4", lineHeight: "20px" }}
                   aria-hidden
                 >
